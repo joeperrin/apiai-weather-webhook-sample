@@ -24,20 +24,21 @@ def webhook():
     res = json.dumps(res, indent=4)
     # print(res)
     r = make_response(res)
+    r.headers['X-Auth'] = 'e57a15ebc33c560137355d6b63d4d1af666ed5e4'
     r.headers['Content-Type'] = 'application/json'
     return r
 
 
 def processRequest(req):
-    if req.get("result").get("action") != "yahooWeatherForecast":
-        return {}
-    baseurl = "https://query.yahooapis.com/v1/public/yql?"
+    # if req.get("result").get("action") != "yahooWeatherForecast":
+    #  return {}
+    baseurl = "https://xboxapi.com/v2/accountxuid"
     yql_query = makeYqlQuery(req)
     if yql_query is None:
         return {}
-    yql_url = baseurl + urllib.urlencode({'q': yql_query}) + "&format=json"
-    result = urllib.urlopen(yql_url).read()
-    data = json.loads(result)
+    # yql_url = baseurl + urllib.urlencode({'q': yql_query}) + "&format=json" 
+    
+    data = json.loads(baseurl)
     res = makeWebhookResult(data)
     return res
 
